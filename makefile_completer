@@ -1,0 +1,122 @@
+#!/usr/bin/python3
+
+import time
+import os
+import re
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+
+IDENTIFIERS = ["src", "tests", "my"]
+PATHS = ["\t$(SRC_DIR)/", "\t$(TEST_SRC)/", "\t"]
+MAKEFILE_VAR = ["SRC\t=", "TEST\t=", "SRC\t="]
+
+
+class FileEvent(FileSystemEventHandler):
+    def on_created(self, event):
+        if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
+            identifier, dir_path = directory_finder(event.src_path)
+            # print("Path where the Makefile is: {}".format(dir_path))
+            # print("The file is in {} directory".format(PATHS[identifier]))
+            if "Makefile" in os.listdir(dir_path):
+                addFiletoMakefile(event.src_path, dir_path, identifier)
+            else:
+                print("Makefile not found in %s" % dir_path)
+
+    def on_deleted(self, event):
+        if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
+            identifier, dir_path = directory_finder(event.src_path)
+            # print("Path where the Makefile is: {}".format(dir_path))
+            # print("The file is in {} directory".format(PATHS[identifier]))
+            if "Makefile" in os.listdir(dir_path):
+                removeFilefromMakefile(event.src_path, dir_path, identifier)
+            else:
+                print("Makefile not found in %s" % dir_path)
+
+
+def directory_finder(path):
+    pathSplit = path.split('/')
+    PathMakefile = []
+    identifier = -1
+    for file in pathSplit:
+        if identifier != -1:
+            break
+        PathMakefile.append(file + "/")
+        for i, ident in enumerate(IDENTIFIERS):
+            if file == ident:
+                identifier = i
+    if identifier == -1:
+        return 0, path
+    elif identifier != 2 and identifier != 3:
+        PathMakefile.remove(IDENTIFIERS[identifier] + "/")
+    PathMakefile = ''.join(PathMakefile)
+    return identifier, PathMakefile
+
+
+def readWrite(path, writing):
+    if writing == None:
+        with open(path, 'r', encoding='utf-8') as Makefile:
+            makeContent = Makefile.read()
+        return makeContent
+    with open(path, 'w', encoding='utf-8') as Makefile:
+        Makefile.write(writing)
+
+
+def addFiletoMakefile(realPath, dir_path, identifier):
+    makeContent = readWrite(path = dir_path + "Makefile", writing = None)
+    line_list = makeContent.splitlines()
+
+    fileName = realPath.replace(dir_path + IDENTIFIERS[identifier] + "/", '')
+    # print("The file has de name as: {}".format(fileName))
+    fileLineMakefile = PATHS[identifier] + fileName + "\t\\"
+    # print("The expected line is: {}".format(fileLineMakefile))
+
+    for line in line_list:
+        # print("Makefile Line: {}, searching: {}".format(line, fileLineMakefile))
+        if re.search(fileLineMakefile + "\\", line):
+            return
+
+    for i, line in enumerate(line_list):
+        if MAKEFILE_VAR[identifier] + PATHS[identifier] in line or MAKEFILE_VAR[identifier] + "\t\\" in line:
+            # print("The line starts here: {}".format(line))
+            while line_list[i] != '': i += 1
+            line_list.insert(i, fileLineMakefile)
+            break
+
+    makeContent = '\n'.join(line_list)
+    readWrite(path = dir_path + "Makefile", writing = makeContent)
+
+
+def removeFilefromMakefile(realPath, dir_path, identifier):
+    makeContent = readWrite(path = dir_path + "Makefile", writing = None)
+    line_list = makeContent.splitlines()
+    fileName = realPath.replace(dir_path + IDENTIFIERS[identifier] + "/", '')
+    # print("The file name is: {}".format(fileName))
+
+    for line in line_list:
+        # print("FINDING Makefile Line: {} || to find {}".format(line, PATHS[identifier] + fileName,))
+        if PATHS[identifier] + fileName in line:
+            if re.match(MAKEFILE_VAR[identifier] + "\t", line):
+                # print("Adding the header because we remove it")
+                line_list.insert(line_list.index(line), MAKEFILE_VAR[identifier] + "\t\\")
+            line_list.remove(line)
+            # print("{} removed !".format(line))
+            break
+
+    makeContent = '\n'.join(line_list)
+    readWrite(path = dir_path + "Makefile", writing = makeContent)
+
+
+if __name__ == '__main__':
+    observer = Observer()
+    event_handler = FileEvent()
+    observer.schedule(event_handler, path="/home/tforne/Documents/Epitech/Tek1/Semester2", recursive=True)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+
+    observer.join()
