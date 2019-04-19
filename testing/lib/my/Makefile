@@ -11,9 +11,6 @@ SRC	=	my_putchar.c	\
 	my_putstr.c	\
 
 TESTS	=	$(TEST_SRC)/test_my_putstr.c	\
-	$(TEST_SRC)/test_my_put_nbr.c	\
-	$(TEST_SRC)/test_my_swap.c	\
-	$(TEST_SRC)/test_my_strupcase.c	\
 
 OBJ	=	$(SRC:.c=.o)
 
