@@ -1,6 +1,6 @@
 FROM python:3
 
-COPY makefile_completer /app/makefile_completer
+COPY makefile_completer.py /app/makefile_completer.py
 
 RUN pip install watchdog
 
