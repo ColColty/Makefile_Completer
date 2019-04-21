@@ -25,22 +25,26 @@ def error_handle():
     path_makefile = sys.argv[1]
     variable_makefile = sys.argv[2]
     line_makefile = sys.argv[3]
-    if variable_makefile == 'SRC\t=' and path_makefile == './testing/':
-        line_makefile = '$(SRC_DIR)' + line_makefile
-    elif variable_makefile == 'TESTS\t=' and path_makefile == './testing/':
-        line_makefile = '$(TEST_SRC)' + line_makefile
+    if variable_makefile == 'SRC\\t=' and path_makefile == './testing/':
+        line_makefile = '\t$(SRC_DIR)' + line_makefile
+    elif variable_makefile == 'TESTS\\t=' and path_makefile == './testing/':
+        line_makefile = '\t$(TEST_SRC)' + line_makefile
+    else:
+        line_makefile = '\t' + line_makefile
 
     return path_makefile, variable_makefile, line_makefile
 
 
 def main():
     file_data = error_handle()
+    print(file_data)
     finder(file_data)
 
 
 if __name__ == '__main__':
     try:
         main()
+        sys.exit(0)
     except Exception as e:
         print(e)
         sys.exit(84)
