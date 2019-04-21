@@ -37,7 +37,8 @@ class FileEvent(FileSystemEventHandler):
 
     def on_moved(self, event):
         if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
-            print("\n=== {} was moved to {} ===\n".format(event.src_path, event.dest_path))
+            print("\n=== {} was moved to {} ===\n".format(
+                event.src_path, event.dest_path))
             identifier, dir_path = directory_finder(event.src_path)
             print("== Path where the Makefile is: {}".format(dir_path))
             print("== The file is in {} directory".format(PATHS[identifier]))
@@ -89,7 +90,7 @@ def addFiletoMakefile(realPath, dir_path, identifier):
 
     print("++++++ ADDING ++++++\n")
     fileName = realPath.replace(dir_path + IDENTIFIERS[identifier] + "/", '')
-    print("++ The file has de name as: {}".format(fileName))
+    print("++ The file has de name of: {}".format(fileName))
     fileLineMakefile = PATHS[identifier] + fileName + "\t\\"
     print("++ The expected line is: {}\n".format(fileLineMakefile))
 
