@@ -18,27 +18,24 @@ jobs:
       script: docker build . -t m_compiler
     - stage: Tests
       name: "Adding files"
-      before-script:
+      script:
         - docker build . -t m_compiler
         - docker run --name m_compiler_d -v "$PWD/testing:/home" m_compiler:latest
         - chmod +x ./ci/test_add.sh
-      script:
         - ./ci/test_add.sh
     -
       name: "Removing files"
-      before-script:
+      script:
         - docker build . -t m_compiler
         - docker run --name m_compiler_d -v "$PWD/testing:/home" m_compiler:latest
         - chmod +x ./ci/test_remove.sh
-      script:
         - ./ci/test_remove.sh
     -
       name: "Moving files"
-      before-script:
+      script:
         - docker build . -t m_compiler
         - docker run --name m_compiler_d -v "$PWD/testing:/home" m_compiler:latest
         - chmod +x ./ci/test_remove.sh
-      script:
         - ./ci/test_move.sh
     - stage: Deployment
       name: "Push to docker hub"
