@@ -93,7 +93,7 @@ touch testing/lib/my/good_lib_file.c
 
 sleep 3
 
-python3 ./ci/tests/find_file.py "./testing/lib/my/" "SRC\t=" "\tgood_lib_file.c"
+python3 ./ci/tests/find_file.py "./testing/lib/my/" "SRC\t=" "good_lib_file.c"
 
 if [ $? -ne 0 ]; then
     echo -e "When a file with \".c\" extension was created it would be added to Makefile"
@@ -112,7 +112,7 @@ touch testing/lib/my/folder/good_lib_file.c
 
 sleep 3
 
-python3 ./ci/tests/find_file.py "./testing/lib/my" "SRC\t=" "\tfolder/good_lib_file.c"
+python3 ./ci/tests/find_file.py "./testing/lib/my/" "SRC\t=" "folder/good_lib_file.c"
 
 if [ $? -ne 0 ]; then
     echo -e "When a file with \".c\" extension was created it would be added to Makefile"
