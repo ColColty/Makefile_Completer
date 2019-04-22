@@ -1,50 +1,57 @@
 language: python
+
 python:
-   - 3.6
+- 3.6
 
 service: docker
+
+git:
+  depth: false
+  quiet: true
 
 notifications:
   email:
   recipients:
-    - tomas.forne-cappeau@epitech.eu
+  - tomas.forne-cappeau@epitech.eu
   on_success: neve
   on_failure: always
 
 jobs:
   include:
-    - stage: Build
-      name: "Building image"
-      script: docker build . -t m_compiler
-    - stage: Tests
-      name: "Adding files"
-      script:
-        - docker build . -t m_compiler
-        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
-        - chmod +x ./ci/test_add.sh
-        - ./ci/test_add.sh
-    -
-      name: "Removing files"
-      script:
-        - docker build . -t m_compiler
-        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
-        - chmod +x ./ci/test_remove.sh
-        - ./ci/test_remove.sh
-    -
-      name: "Moving files"
-      script:
-        - docker build . -t m_compiler
-        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
-        - chmod +x ./ci/test_remove.sh
-        - ./ci/test_move.sh
-    - stage: Deployment
-      name: "Push to docker hub"
-      script:
-        - docker build . -t makefile_completer
-        - docker push colcolt/makefile_completer:latest
+  - stage: Build
+    name: Building image
+    script: docker build . -t m_compiler
+  - stage: Tests
+    name: Adding files
+    script:
+    - docker build . -t m_compiler
+    - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+    - chmod +x ./ci/test_add.sh
+    - "./ci/test_add.sh"
+  - name: Removing files
+    script:
+    - docker build . -t m_compiler
+    - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+    - chmod +x ./ci/test_remove.sh
+    - "./ci/test_remove.sh"
+  - name: Moving files
+    script:
+    - docker build . -t m_compiler
+    - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+    - chmod +x ./ci/test_remove.sh
+    - "./ci/test_move.sh"
+  - stage: Deployment
+    name: Push to docker hub
+    script:
+    - docker build . -t colcolt/makefile_completer:latest
+    - docker push colcolt/makefile_completer:latest
 
 stages:
-  - Build
-  - Tests
-  - name: Deployment
-    if: branch IN (master) AND type != cron AND type != pull_request
+- Build
+- Tests
+- name: Deployment
+  if: branch IN (master) AND type != cron AND type != pull_request
+
+env:
+  matrix:
+    secure: rXmBzc/+0/NgbjbGPNhQvGvtiQrGtQL1pSkGGWojkJMMNIlMMv3d9XF/kgnk78JCmadS66adE3jaOhQMM8VS3h2h5h5WQHhjfh+eGR+GabBSm07hf0jm2yQogvKKO4l2OVokDYteRvmBDu1dvjWh2N5BD2ppHK3mZ+apOfWjStRqnYI7qgj31hMjOF4/tOO6ka8zcB34YpAfCnR/wQ0I1JIwWvws2ffH3LPsQSeoGjODRRQ0jIItApuFK93qadn1yivu78ELnNW5lWOXXljcaZZLFq5YHLanUc0Qv1Dm8htoMCAomQkgk0iQn9KCHOxl0zMlT+4W7rPI+jsMWy9x3SuBbnZc4QYTAHBGwgD3HFW7C4gIItBcURRDdesBf+58OA+eHKwppI8XfGqrrz2kpd8/jwroqr3kC+v1+X8MXJR1BWECiRneKOnuUeSBK8/QRhOofwVRfhQ/LNQq3QYVOQmycpyvRKSnwOp0tmrkHMWkZ0lPKg6qdtfVRJaI/RE15QVJeUpOLMjRVPmf+Gce5HBNGqbjQGLqnjHIZV3BiV6gOsBs7DCInAEk3vKYyH1AVJ6u0iN3TTg3D8O4EJcC4zCxD5ZBWWBthGY+3u7LyOYdfWRcfK+BUjUBWewGIRkZFSj6AHqITGa79bV+GK7utdVWaoQK1IpkVtr3e9S/4wU=
