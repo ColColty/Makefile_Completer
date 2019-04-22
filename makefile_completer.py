@@ -89,7 +89,7 @@ def addFiletoMakefile(realPath, dir_path, identifier):
     line_list = makeContent.splitlines()
 
     print("++++++ ADDING ++++++\n")
-    fileName = realPath.replace(dir_path + IDENTIFIERS[identifier] + "/", '')
+    fileName = realPath.replace(dir_path + ((IDENTIFIERS[identifier] + '/') if identifier != 2 else ''), '')
     print("++ The file has de name of: {}".format(fileName))
     fileLineMakefile = PATHS[identifier] + fileName + "\t\\"
     print("++ The expected line is: {}\n".format(fileLineMakefile))
@@ -101,7 +101,7 @@ def addFiletoMakefile(realPath, dir_path, identifier):
             return
 
     for i, line in enumerate(line_list):
-        if MAKEFILE_VAR[identifier] + PATHS[identifier] in line or MAKEFILE_VAR[identifier] + "\t\\" in line:
+        if re.match(MAKEFILE_VAR[identifier] + PATHS[identifier], line) or re.match(MAKEFILE_VAR[identifier] + "\t", line):
             print("++ The line starts here: {}".format(line))
             while line_list[i] != '':
                 i += 1
@@ -119,7 +119,7 @@ def removeFilefromMakefile(realPath, dir_path, identifier):
     line_list = makeContent.splitlines()
 
     print("------ REMOVING ------\n")
-    fileName = realPath.replace(dir_path + IDENTIFIERS[identifier] + "/", '')
+    fileName = realPath.replace(dir_path + ((IDENTIFIERS[identifier] + "/") if identifier != 2 else ''), '')
     print("-- The file name is: {}\n".format(fileName))
 
     for line in line_list:
@@ -142,7 +142,8 @@ def removeFilefromMakefile(realPath, dir_path, identifier):
 if __name__ == '__main__':
     observer = Observer()
     event_handler = FileEvent()
-    observer.schedule(event_handler, path="/home", recursive=True)
+    observer.schedule(event_handler, path="/home/tforne/Documents/Epitech/Porfolio/Makefile_Completer/testing", recursive=True)
+    # observer.schedule(event_handler, path="/home", recursive=True)
     observer.start()
 
     try:
