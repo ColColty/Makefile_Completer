@@ -1,0 +1,50 @@
+language: python
+python:
+   - 3.6
+
+service: docker
+
+notifications:
+  email:
+  recipients:
+    - tomas.forne-cappeau@epitech.eu
+  on_success: neve
+  on_failure: always
+
+jobs:
+  include:
+    - stage: Build
+      name: "Building image"
+      script: docker build . -t m_compiler
+    - stage: Tests
+      name: "Adding files"
+      script:
+        - docker build . -t m_compiler
+        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+        - chmod +x ./ci/test_add.sh
+        - ./ci/test_add.sh
+    -
+      name: "Removing files"
+      script:
+        - docker build . -t m_compiler
+        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+        - chmod +x ./ci/test_remove.sh
+        - ./ci/test_remove.sh
+    -
+      name: "Moving files"
+      script:
+        - docker build . -t m_compiler
+        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+        - chmod +x ./ci/test_remove.sh
+        - ./ci/test_move.sh
+    - stage: Deployment
+      name: "Push to docker hub"
+      script:
+        - docker build . -t makefile_completer
+        - docker push colcolt/makefile_completer:latest
+
+stages:
+  - Build
+  - Tests
+  - name: Deployment
+    if: branch IN (master) AND type != cron AND type != pull_request
