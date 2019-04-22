@@ -1,16 +1,20 @@
 language: python
 python:
 - 3.6
+
 service: docker
+
 git:
   depth: false
   quiet: true
+
 notifications:
   email: 
   recipients:
   - tomas.forne-cappeau@epitech.eu
   on_success: neve
   on_failure: always
+
 jobs:
   include:
   - stage: Build
@@ -41,14 +45,15 @@ jobs:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker build . -t colcolt/makefile_completer:latest
     - docker push colcolt/makefile_completer:latest
+
 stages:
 - Build
 - Tests
 - name: Deployment
   if: branch IN (master) AND type != cron AND type != pull_request
+
 env:
   matrix:
     secure: rXmBzc/+0/NgbjbGPNhQvGvtiQrGtQL1pSkGGWojkJMMNIlMMv3d9XF/kgnk78JCmadS66adE3jaOhQMM8VS3h2h5h5WQHhjfh+eGR+GabBSm07hf0jm2yQogvKKO4l2OVokDYteRvmBDu1dvjWh2N5BD2ppHK3mZ+apOfWjStRqnYI7qgj31hMjOF4/tOO6ka8zcB34YpAfCnR/wQ0I1JIwWvws2ffH3LPsQSeoGjODRRQ0jIItApuFK93qadn1yivu78ELnNW5lWOXXljcaZZLFq5YHLanUc0Qv1Dm8htoMCAomQkgk0iQn9KCHOxl0zMlT+4W7rPI+jsMWy9x3SuBbnZc4QYTAHBGwgD3HFW7C4gIItBcURRDdesBf+58OA+eHKwppI8XfGqrrz2kpd8/jwroqr3kC+v1+X8MXJR1BWECiRneKOnuUeSBK8/QRhOofwVRfhQ/LNQq3QYVOQmycpyvRKSnwOp0tmrkHMWkZ0lPKg6qdtfVRJaI/RE15QVJeUpOLMjRVPmf+Gce5HBNGqbjQGLqnjHIZV3BiV6gOsBs7DCInAEk3vKYyH1AVJ6u0iN3TTg3D8O4EJcC4zCxD5ZBWWBthGY+3u7LyOYdfWRcfK+BUjUBWewGIRkZFSj6AHqITGa79bV+GK7utdVWaoQK1IpkVtr3e9S/4wU=
   global:
     secure: Z/7Iv2cNGxCZBdHPos+CSvjkk92ru4dCSynHT50SuYJAi58IZOg/WcbjEKzSwMylpi+1SJqLXAoF7ugutTcW+XAmlbPUei+T6KFHmWsNcgZeUM2dmWQy6OI7UX3drBmBGIa50YUwNmay1QdsTMGeN5QiqebNs1FBdMyAk8zHRLqBBxO2M82rcE/KhRElSMghGdOlec2BJQp13I2dS+uodr5DB68Dr9k4nAFWlHjNwLjWQo5TJZzpYut2eJcmSHMOkEXzTiFyXyw/bW9VUrO2AfUtEnqFOD8m/vpBWS5l9JeuL+m8wLUjjr6REU+R7dlzTo+n6eVSo998iOlpusaiNvjYdE2Na6KodBZjm7V0/JLlF2GJLO/6Ht/K5L7fPAftFjrmylGsyiuYJy+xp7s5NYuRy4229z7hsK2/pNt563zG5ZnPcoe/BQLGEAXjrbgcsvn/pEqZHMDt4UhhmF31q7IWe+16wT8OQSmsuEmz1EQ1QiRAkcTbcWotgcyE/oxLujP37KRNU/qBZ4lpAxPol7mgtsAb0hOkuPLI/FXO4xzjPbAnK8+1DcvSO2uLi6l53ZR/wfKr4ASKt/6CRXMiXus8GEbLgXj8JnOiPJOzb/tbEkcWfcVc07w3ldoMgP4peYYgEw6mKXAqut1uQJwPGVcP+q0Cx2Q9M/knB4ud2w8=
-    - DOCKER_USERNAME=colcolt
