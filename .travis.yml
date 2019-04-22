@@ -42,9 +42,16 @@ jobs:
       script:
         - docker build . -t makefile_completer
         - docker push colcolt/makefile_completer:latest
+    -
+      name: "Push dev images on docker hub"
+      script:
+        - docker build . -t makefile_completer
+        - docker push colcolt/makefile_completer:dev
 
 stages:
   - Build
   - Tests
-  - name: Deployment
+  - name: "Push to docker hub"
     if: branch IN (master) AND type != cron AND type != pull_request
+  - name: "Push dev images on docker hub"
+    if: branch IN (dev) AND type != cron AND type != pull_request
