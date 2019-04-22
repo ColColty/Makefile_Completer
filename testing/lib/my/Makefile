@@ -5,7 +5,7 @@
 ## Do a file who compile for us
 ##
 
-TEST_SRC	=	$(realpath tests/)
+TEST_SRC	=	$(realpath tests_lib/)
 
 SRC	=	my_putchar.c	\
 	my_putstr.c	\
