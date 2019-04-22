@@ -9,7 +9,7 @@ from watchdog.events import FileSystemEventHandler
 
 IDENTIFIERS = ["src", "tests", "my"]
 PATHS = ["\t$(SRC_DIR)/", "\t$(TEST_SRC)/", "\t"]
-MAKEFILE_VAR = ["SRC\t=", "TEST\t=", "SRC\t="]
+MAKEFILE_VAR = ["SRC\t=", "TESTS\t=", "SRC\t="]
 
 
 class FileEvent(FileSystemEventHandler):
@@ -101,6 +101,7 @@ def addFiletoMakefile(realPath, dir_path, identifier):
             return
 
     for i, line in enumerate(line_list):
+        print("++ TO ADD Makefile line: {}\t||\tto find -> {}".format(line, fileLineMakefile))
         if re.match(MAKEFILE_VAR[identifier] + PATHS[identifier], line) or re.match(MAKEFILE_VAR[identifier] + "\t", line):
             print("++ The line starts here: {}".format(line))
             while line_list[i] != '':
