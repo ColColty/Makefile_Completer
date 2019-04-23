@@ -11,9 +11,9 @@ GREEN	=	\033[0;32m
 RED	=	\033[0;31m
 DEFAULT	=	\033[0m
 
-all:	create run
+all:	build run
 
-create:
+build:
 	@docker build -t $(DOCK_IMG_NAME) . && \
 	echo "$(GREEN)Image well created$(DEFAULT)" || \
 	echo "$(RED)Image build has failed$(DEFAULT)"
@@ -57,7 +57,7 @@ stop:
 	@docker rm -f $(DOCKER_NAME) && \
 	echo "$(GREEN)The docker was well removed$(DEFAULT)"
 
-re:	stop create run
+re:	stop build run
 
 help:
 	@cat README.md
