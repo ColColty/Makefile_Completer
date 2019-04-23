@@ -21,7 +21,7 @@ create:
 run:
 	@docker run --name $(DOCKER_NAME) --restart=always -v "$(PWD):/home" -d m_completer:latest && \
 	echo "$(GREEN)Docker running in background, your Makefiles will be completed$(DEFAULT)" || \
-	echo "$(RED)There is no related image in local.\nEnter:\nmake repo_run\n to run it with the image in the Docker Hub$(DEFAULT)"
+	echo "$(RED)There is no related image in local or another docker is running.\nEnter:\n\tmake re\nTo run it again.$(DEFAULT)"
 
 repo_run:
 	@docker pull $(DOCKER_REPO) && \
