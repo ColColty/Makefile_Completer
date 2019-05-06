@@ -3,21 +3,20 @@
 import time
 import os
 import re
+import scripts.find_makefile as finder
+import scripts.definers as define
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 
-IDENTIFIERS = ["src", "tests", "my"]
-PATHS = ["\t$(SRC_DIR)/", "\t$(TEST_SRC)/", "\t"]
-MAKEFILE_VAR = ["SRC\t=", "TESTS\t=", "SRC\t="]
 
 
 class FileEvent(FileSystemEventHandler):
     def on_created(self, event):
         if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
-            identifier, dir_path = directory_finder(event.src_path)
+            identifier, dir_path = finder.directory_finder(event.src_path)
             print("++ Path where the Makefile is: {}".format(dir_path))
-            print("++ The file is in {} directory".format(PATHS[identifier]))
+            print("++ The file is in {} directory".format(define.PATHS[identifier]))
             if "Makefile" in os.listdir(dir_path):
                 addFiletoMakefile(event.src_path, dir_path, identifier)
             else:
@@ -26,9 +25,9 @@ class FileEvent(FileSystemEventHandler):
 
     def on_deleted(self, event):
         if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
-            identifier, dir_path = directory_finder(event.src_path)
+            identifier, dir_path = finder.directory_finder(event.src_path)
             print("-- Path where the Makefile is: {}".format(dir_path))
-            print("-- The file is in {} directory".format(PATHS[identifier]))
+            print("-- The file is in {} directory".format(define.PATHS[identifier]))
             if "Makefile" in os.listdir(dir_path):
                 removeFilefromMakefile(event.src_path, dir_path, identifier)
             else:
@@ -39,40 +38,21 @@ class FileEvent(FileSystemEventHandler):
         if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
             print("\n=== {} was moved to {} ===\n".format(
                 event.src_path, event.dest_path))
-            identifier, dir_path = directory_finder(event.src_path)
+            identifier, dir_path = finder.directory_finder(event.src_path)
             print("== Path where the Makefile is: {}".format(dir_path))
-            print("== The file is in {} directory".format(PATHS[identifier]))
+            print("== The file is in {} directory".format(define.PATHS[identifier]))
             if "Makefile" in os.listdir(dir_path):
                 removeFilefromMakefile(event.src_path, dir_path, identifier)
             else:
                 print("== Makefile not found in %s" % dir_path)
-            identifier, dir_path = directory_finder(event.dest_path)
+            identifier, dir_path = finder.directory_finder(event.dest_path)
             print("==Path where the Makefile is: {}".format(dir_path))
-            print("==The file is in {} directory".format(PATHS[identifier]))
+            print("==The file is in {} directory".format(define.PATHS[identifier]))
             if "Makefile" in os.listdir(dir_path):
                 addFiletoMakefile(event.dest_path, dir_path, identifier)
             else:
                 print("== Makefile not found int %s" % dir_path)
             print("\n======== THE FILE WAS MOVED =========\n\n\n")
-
-
-def directory_finder(path):
-    pathSplit = path.split('/')
-    PathMakefile = []
-    identifier = -1
-    for file in pathSplit:
-        if identifier != -1:
-            break
-        PathMakefile.append(file + "/")
-        for i, ident in enumerate(IDENTIFIERS):
-            if file == ident:
-                identifier = i
-    if identifier == -1:
-        return 0, path
-    elif identifier != 2 and identifier != 3:
-        PathMakefile.remove(IDENTIFIERS[identifier] + "/")
-    PathMakefile = ''.join(PathMakefile)
-    return identifier, PathMakefile
 
 
 def readWrite(path, writing=None):
@@ -89,9 +69,9 @@ def addFiletoMakefile(realPath, dir_path, identifier):
     line_list = makeContent.splitlines()
 
     print("++++++ ADDING ++++++\n")
-    fileName = realPath.replace(dir_path + ((IDENTIFIERS[identifier] + '/') if identifier != 2 else ''), '')
+    fileName = realPath.replace(dir_path + ((define.IDENTIFIERS[identifier] + '/') if identifier != 2 else ''), '')
     print("++ The file has de name of: {}".format(fileName))
-    fileLineMakefile = PATHS[identifier] + fileName + "\t\\"
+    fileLineMakefile = define.PATHS[identifier] + fileName + "\t\\"
     print("++ The expected line is: {}\n".format(fileLineMakefile))
 
     for line in line_list:
@@ -102,7 +82,7 @@ def addFiletoMakefile(realPath, dir_path, identifier):
 
     for i, line in enumerate(line_list):
         print("++ TO ADD Makefile line: {}\t||\tto find -> {}".format(line, fileLineMakefile))
-        if re.match(MAKEFILE_VAR[identifier] + PATHS[identifier], line) or re.match(MAKEFILE_VAR[identifier] + "\t", line):
+        if re.match(define.MAKEFILE_VAR[identifier] + define.PATHS[identifier], line) or re.match(define.MAKEFILE_VAR[identifier] + "\t", line):
             print("++ The line starts here: {}".format(line))
             while line_list[i] != '':
                 i += 1
@@ -120,17 +100,17 @@ def removeFilefromMakefile(realPath, dir_path, identifier):
     line_list = makeContent.splitlines()
 
     print("------ REMOVING ------\n")
-    fileName = realPath.replace(dir_path + ((IDENTIFIERS[identifier] + "/") if identifier != 2 else ''), '')
+    fileName = realPath.replace(dir_path + ((define.IDENTIFIERS[identifier] + "/") if identifier != 2 else ''), '')
     print("-- The file name is: {}\n".format(fileName))
 
     for line in line_list:
         print("-- FINDING Makefile Line: {}\t||\tto find -> {}".format(line,
-                                                                       PATHS[identifier] + fileName,))
-        if PATHS[identifier] + fileName in line:
-            if re.match(MAKEFILE_VAR[identifier] + "\t", line):
+                                                                       define.PATHS[identifier] + fileName,))
+        if define.PATHS[identifier] + fileName in line:
+            if re.match(define.MAKEFILE_VAR[identifier] + "\t", line):
                 print("-- Adding the header because we remove it")
                 line_list.insert(line_list.index(
-                    line), MAKEFILE_VAR[identifier] + "\t\\")
+                    line), define.MAKEFILE_VAR[identifier] + "\t\\")
             line_list.remove(line)
             print("-- {} removed !\n".format(line))
             break
