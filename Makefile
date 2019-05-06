@@ -31,10 +31,10 @@ repo_run:
 	echo "$(GREEN)Docker running in background, your Makefiles will be completed$(DEFAULT)" || \
 	echo "$(RED)There is a problem starting the docker on background$(DEFAULT)"
 
-new_makefile:
-	@python3 scripts/makefile_creator.py && \
-	echo "$(GREEN)The new Makefile was well created$(DEFAULT)" || \
-	echo "$(RED)The program can't create the Makefile$(DEFAULT)"
+# new_makefile:
+	# @python3 scripts/makefile_creator.py && \
+	# echo "$(GREEN)The new Makefile was well created$(DEFAULT)" || \
+	# echo "$(RED)The program can't create the Makefile$(DEFAULT)"
 
 tests_run:
 	@docker build -t $(DOCK_IMG_NAME) . && \
