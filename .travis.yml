@@ -8,33 +8,30 @@ notifications:
   email:
   recipients:
     - tomas.forne-cappeau@epitech.eu
-  on_success: neve
+  on_success: never
   on_failure: always
 
 jobs:
   include:
     - stage: Build
       name: "Building image"
-      script: docker build . -t m_compiler
+      script: make build
     - stage: Tests
       name: "Adding files"
       script:
-        - docker build . -t m_compiler
-        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+        - make
         - chmod +x ./ci/test_add.sh
         - ./ci/test_add.sh
     -
       name: "Removing files"
       script:
-        - docker build . -t m_compiler
-        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+        - make
         - chmod +x ./ci/test_remove.sh
         - ./ci/test_remove.sh
     -
       name: "Moving files"
       script:
-        - docker build . -t m_compiler
-        - docker run --name m_compiler_d -d -v "$PWD/testing:/home" m_compiler:latest
+        - make
         - chmod +x ./ci/test_remove.sh
         - ./ci/test_move.sh
     - stage: Deployment
