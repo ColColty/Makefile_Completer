@@ -10,12 +10,14 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import logging
 
+
 class FileEvent(FileSystemEventHandler):
     def on_created(self, event):
         if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
             identifier, dir_path = finder.directory_finder(event.src_path)
             logging.info("++ Path where the Makefile is: {}".format(dir_path))
-            logging.info("++ The file is in {} directory".format(define.PATHS[identifier]))
+            logging.info(
+                "++ The file is in {} directory".format(define.PATHS[identifier]))
             if "Makefile" in os.listdir(dir_path):
                 add.addFiletoMakefile(event.src_path, dir_path, identifier)
             else:
@@ -26,7 +28,8 @@ class FileEvent(FileSystemEventHandler):
         if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
             identifier, dir_path = finder.directory_finder(event.src_path)
             logging.info("-- Path where the Makefile is: {}".format(dir_path))
-            logging.info("-- The file is in {} directory".format(define.PATHS[identifier]))
+            logging.info(
+                "-- The file is in {} directory".format(define.PATHS[identifier]))
             if "Makefile" in os.listdir(dir_path):
                 rm.removeFilefromMakefile(event.src_path, dir_path, identifier)
             else:
@@ -39,7 +42,8 @@ class FileEvent(FileSystemEventHandler):
                 event.src_path, event.dest_path))
             identifier, dir_path = finder.directory_finder(event.src_path)
             logging.info("== Path where the Makefile is: {}".format(dir_path))
-            logging.info("== The file is in {} directory".format(define.PATHS[identifier]))
+            logging.info("== The file is in {} directory".format(
+                define.PATHS[identifier]))
             if "Makefile" in os.listdir(dir_path):
                 rm.removeFilefromMakefile(event.src_path, dir_path, identifier)
                 add.addFiletoMakefile(event.dest_path, dir_path, identifier)
@@ -52,7 +56,8 @@ if __name__ == '__main__':
     observer = Observer()
     event_handler = FileEvent()
     # observer.schedule(event_handler, path="/home/tforne/Documents/Epitech/Porfolio/Makefile_Completer/testing", recursive=True)
-    observer.schedule(event_handler, path="/home", recursive=True)
+    observer.schedule(
+        event_handler, path="/home", recursive=True)
     observer.start()
     logging.basicConfig(level=logging.DEBUG)
 
