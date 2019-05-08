@@ -4,26 +4,33 @@ import re
 import os
 import logging
 
-def addFiletoMakefile(realPath, dir_path, identifier):
-    makeContent = lib.readWrite(path=dir_path + "Makefile", writing=None)
+
+def check_already_exists(all_lines, line_to_find):
+    for line in all_lines:
+        logging.debug(
+            "++ FINDING Makefile Line: {}\t||\tto find -> {}".format(line, line_to_find))
+        if re.search(line_to_find + "\\", line):
+            logging.info("The line already exists")
+            return line
+    return None
+
+
+def addFiletoMakefile(file):
+    makeContent = lib.readWrite(path=file.makefile + "Makefile", writing=None)
     line_list = makeContent.splitlines()
 
     logging.info("++++++ ADDING ++++++\n")
-    fileName = realPath.replace(dir_path + ((define.IDENTIFIERS[identifier] + '/') if identifier != 2 else ''), '')
-    logging.info("++ The file has de name of: {}".format(fileName))
-    fileLineMakefile = define.PATHS[identifier] + fileName + "\t\\"
+    logging.info("++ The file has de name of: {}".format(file.filename))
+    fileLineMakefile = define.PATHS[file.identifier] + file.filename + "\t\\"
     logging.info("++ The expected line is: {}\n".format(fileLineMakefile))
 
-    for line in line_list:
-        logging.debug(
-            "++ FINDING Makefile Line: {}\t||\tto find -> {}".format(line, fileLineMakefile))
-        if re.search(fileLineMakefile + "\\", line):
-            logging.info("The file already exists")
-            return
+    if check_already_exists(line_list, fileLineMakefile) != None:
+        return
 
     for i, line in enumerate(line_list):
-        logging.debug("++ TO ADD Makefile line: {}\t||\tto find -> {}".format(line, fileLineMakefile))
-        if re.match(define.MAKEFILE_VAR[identifier] + define.PATHS[identifier], line) or re.match(define.MAKEFILE_VAR[identifier] + "\t", line):
+        logging.debug(
+            "++ TO ADD Makefile line: {}\t||\tto find -> {}".format(line, fileLineMakefile))
+        if re.match(define.MAKEFILE_VAR[file.identifier] + define.PATHS[file.identifier], line) or re.match(define.MAKEFILE_VAR[file.identifier] + "\t", line):
             logging.debug("++ The line starts here: {}".format(line))
             while line_list[i] != '':
                 i += 1
@@ -32,8 +39,9 @@ def addFiletoMakefile(realPath, dir_path, identifier):
             break
 
     makeContent = '\n'.join(line_list)
-    lib.readWrite(path=dir_path + "Makefile", writing=makeContent)
+    lib.readWrite(path=file.makefile + "Makefile", writing=makeContent)
     logging.info("++ Line well added\n\n")
+
 
 if __name__ == '__main__':
     print("This is are the functions to add a file to the Makefile")

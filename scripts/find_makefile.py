@@ -1,6 +1,7 @@
 import scripts.definers as define
 import os
 
+
 def directory_finder(path):
     pathSplit = path.split('/')
     PathMakefile = []
@@ -19,6 +20,8 @@ def directory_finder(path):
     PathMakefile = ''.join(PathMakefile)
     return identifier, PathMakefile
 
+
 if __name__ == '__main__':
     identifier, path = directory_finder(os.getcwd())
-    print("The identifier is {}, and the path where it was is {}".format(identifier, path))
+    print("The identifier is {}, and the path where it was is {}".format(
+        identifier, path))
