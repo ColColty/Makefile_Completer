@@ -1,7 +1,7 @@
 import scripts.definers as define
 import os
 
-
+# TODO Make a better directory path finder with an implemented Makefile finder in the loop directory
 def directory_finder(path):
     pathSplit = path.split('/')
     PathMakefile = []

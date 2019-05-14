@@ -1,5 +1,6 @@
 import sys
 
+
 def readWrite(path, writing=None):
     if writing == None:
         with open(path, 'r', encoding='utf-8') as file:
@@ -8,6 +9,7 @@ def readWrite(path, writing=None):
     with open(path, 'w', encoding='utf-8') as file:
         file.write(writing)
 
+# TODO Function to read and interpret json files
 
 if __name__ == '__main':
     if len(sys.argv) < 2:

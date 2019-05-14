@@ -5,7 +5,7 @@ import logging
 
 
 def removeFilefromMakefile(file):
-    makeContent = lib.readWrite(path=file.makefile + "Makefile", writing=None)
+    makeContent = lib.readWrite(path=file.makefile + "Makefile")
     line_list = makeContent.splitlines()
 
     logging.info("------ REMOVING ------\n")
