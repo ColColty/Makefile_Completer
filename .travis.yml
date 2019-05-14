@@ -9,7 +9,7 @@ git:
   quiet: true
 
 notifications:
-  email: 
+  email:
   recipients:
     - tomas.forne-cappeau@epitech.eu
   on_success: never
