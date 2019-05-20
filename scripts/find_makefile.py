@@ -1,24 +1,44 @@
 import scripts.definers as define
 import os
+import re
+import logging
 
 # TODO Make a better directory path finder with an implemented Makefile finder in the loop directory
+
+
+def makefile_in_dir(curr_dir):
+    for line in os.listdir(curr_dir):
+        if re.match("Makefile", line):
+            return True
+    return False
+
+
+def identify_it(element):
+    for i, ident in enumerate(define.IDENTIFIERS):
+        if ident == element:
+            logging.debug("The identifier is: {}".format(define.IDENTIFIERS[i]))
+            return i
+    return None
+
+
+def find_makefile(path):
+    rev_path = path.split('/')[::-1]
+    path_split = path.split('/')
+    for current in rev_path:
+        path_split.remove(current)
+        if makefile_in_dir('/'.join(path_split)):
+            logging.info("Path for the makefile {}".format('/'.join(path_split)))
+            return '/'.join(path_split) + '/'
+    return None
+
+
 def directory_finder(path):
-    pathSplit = path.split('/')
-    PathMakefile = []
-    identifier = -1
-    for file in pathSplit:
-        if identifier != -1:
+    makefile_path = find_makefile(path)
+    for element in path.split('/')[::-1]:
+        identifier = identify_it(element)
+        if identifier != None:
             break
-        PathMakefile.append(file + "/")
-        for i, ident in enumerate(define.IDENTIFIERS):
-            if file == ident:
-                identifier = i
-    if identifier == -1:
-        return 0, path
-    elif identifier != 2 and identifier != 3:
-        PathMakefile.remove(define.IDENTIFIERS[identifier] + "/")
-    PathMakefile = ''.join(PathMakefile)
-    return identifier, PathMakefile
+    return identifier, makefile_path
 
 
 if __name__ == '__main__':
