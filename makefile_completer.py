@@ -85,10 +85,12 @@ class FileEvent(FileSystemEventHandler):
             logging.info("== Path where the Makefile is: {}".format(dir_path))
             logging.info("== The file is in {} directory".format(
                 define.PATHS[identifier]))
-            movedFile = dataFile(event.src_path, dir_path,
-                                 identifier, event.dest_path)
+            baseFile = dataFile(event.src_path, dir_path,
+                                 identifier)
+            identifier, dir_path = finder.directory_finder(event.dest_path)
+            movedFile = dataFile(event.dest_path, dir_path, identifier)
             if "Makefile" in os.listdir(dir_path):
-                rm.removeFilefromMakefile(movedFile)
+                rm.removeFilefromMakefile(baseFile)
                 add.addFiletoMakefile(movedFile)
             else:
                 logging.error("== Makefile not found in %s" % dir_path)
@@ -101,7 +103,7 @@ if __name__ == '__main__':
     observer.schedule(event_handler, path="/home/tforne/Documents/Epitech/Porfolio/Makefile_Completer/testing", recursive=True)
     # observer.schedule(event_handler, path="/home", recursive=True)
     observer.start()
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
 
     try:
         while True:
