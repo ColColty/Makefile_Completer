@@ -3,8 +3,6 @@ import os
 import re
 import logging
 
-# TODO Make a better directory path finder with an implemented Makefile finder in the loop directory
-
 
 def makefile_in_dir(curr_dir):
     for line in os.listdir(curr_dir):
@@ -27,7 +25,6 @@ def find_makefile(path):
     for current in rev_path:
         path_split.remove(current)
         if makefile_in_dir('/'.join(path_split)):
-            logging.info("Path for the makefile {}".format('/'.join(path_split)))
             return '/'.join(path_split) + '/'
     return None
 
