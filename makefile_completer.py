@@ -44,7 +44,9 @@ class dataFile:
 
 class FileEvent(FileSystemEventHandler):
     def on_created(self, event):
-        if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
+        file, ext = os.path.splitext(event.src_path)
+        logging.info("++ Extension of \"{}\" and the path is {}".format(ext, file))
+        if ext == ".c":
             identifier, dir_path = finder.directory_finder(event.src_path)
             logging.info("++ Path where the Makefile is: {}".format(dir_path))
             logging.info(
@@ -57,7 +59,9 @@ class FileEvent(FileSystemEventHandler):
             logging.info("\n++++++++ THE FILE WAS ADDED ++++++++\n\n\n")
 
     def on_deleted(self, event):
-        if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
+        file, ext = os.path.splitext(event.src_path)
+        logging.info("-- Extension of \"{}\" and the path is {}".format(ext, file))
+        if ext == ".c":
             identifier, dir_path = finder.directory_finder(event.src_path)
             logging.info("-- Path where the Makefile is: {}".format(dir_path))
             logging.info(
@@ -72,14 +76,16 @@ class FileEvent(FileSystemEventHandler):
             print("is_directory")
 
     def on_moved(self, event):
-        if event.src_path[-1] == 'c' and event.src_path[-2] == '.':
+        file, ext = os.path.splitext(event.src_path)
+        logging.info("== Extension of \"{}\" and the path is {}".format(ext, file))
+        if ext == ".c":
             logging.info("\n=== {} was moved to {} ===\n".format(
                 event.src_path, event.dest_path))
             identifier, dir_path = finder.directory_finder(event.src_path)
             logging.info("== Path where the Makefile is: {}".format(dir_path))
             logging.info("== The file is in {} directory".format(
                 define.PATHS[identifier]))
-            movedFile = dataFile(event.src_file, dir_path,
+            movedFile = dataFile(event.src_path, dir_path,
                                  identifier, event.dest_path)
             if "Makefile" in os.listdir(dir_path):
                 rm.removeFilefromMakefile(movedFile)
@@ -92,9 +98,8 @@ class FileEvent(FileSystemEventHandler):
 if __name__ == '__main__':
     observer = Observer()
     event_handler = FileEvent()
-    # observer.schedule(event_handler, path="/home/tforne/Documents/Epitech/Porfolio/Makefile_Completer/testing", recursive=True)
-    observer.schedule(
-        event_handler, path=".", recursive=True)
+    observer.schedule(event_handler, path="/home/tforne/Documents/Epitech/Porfolio/Makefile_Completer/testing", recursive=True)
+    # observer.schedule(event_handler, path="/home", recursive=True)
     observer.start()
     logging.basicConfig(level=logging.INFO)
 
