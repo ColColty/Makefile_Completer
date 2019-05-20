@@ -100,8 +100,8 @@ class FileEvent(FileSystemEventHandler):
 if __name__ == '__main__':
     observer = Observer()
     event_handler = FileEvent()
-    observer.schedule(event_handler, path="/home/tforne/Documents/Epitech/Porfolio/Makefile_Completer/testing", recursive=True)
-    # observer.schedule(event_handler, path="/home", recursive=True)
+    # observer.schedule(event_handler, path="/home/tforne/Documents/Epitech/Porfolio/Makefile_Completer/testing", recursive=True)
+    observer.schedule(event_handler, path="/home", recursive=True)
     observer.start()
     logging.basicConfig(level=logging.DEBUG)
 
