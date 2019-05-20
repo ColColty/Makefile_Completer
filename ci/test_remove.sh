@@ -1,7 +1,5 @@
 #!/bin/bash
 
-COUNTER=0
-
 # ========== functions ==========
 
 function remove_file() {
@@ -26,8 +24,7 @@ function remove_file() {
         exit 84
     fi
 
-    COUNTER = $((COUNTER + 1))
-    echo -e "\033[1;32Test $COUNTER passed\033[0m"
+    echo -e "\033[1;32Test $1 passed\033[0m"
 }
 
 function remove_file_folder() {
@@ -52,9 +49,8 @@ function remove_file_folder() {
         echo -e "When the file was removed the line on Makefile need to be removed too"
         exit 84
     fi
-
-    COUNTER = $((COUNTER + 1))
-    echo -e "\033[1;32Test $COUNTER passed\033[0m"
+ç
+    echo -e "\033[1;32Test $1 passed\033[0m"
 }
 
 echo -e "\033[1mTESTING when we remove a file from src\033[0m"
@@ -64,7 +60,7 @@ echo -e "\033[1mTESTING when we remove a file from src/folder\033[0m"
 remove_file_folder testing/src/folder/file.c "./testing/" "SRC\t=" "/folder/file.c" testing/src/folder
 
 echo -e "\033[1mTESTING when we remove a file from tests\033[0m"
-remove_file testing/tests/file.c "./testnig/" "TESTS\t=" "/file.c"
+remove_file testing/tests/file.c "./testing/" "TESTS\t=" "/file.c"
 
 echo -e "\033[1mTESTING when we remove a file from tests/folder\033[0m"
 remove_file_folder testing/tests/folder/file.c "./testing/" "TESTS\t=" "/folder/file.c" testing/tests/folder
