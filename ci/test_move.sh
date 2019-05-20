@@ -3,12 +3,12 @@
 # ========= functions ============
 
 function move_test() {
-    touch testing/$6$1
+    touch testing/$6/$1
     mkdir $2
 
     sleep 4
 
-    mv testing/$6$1 $2$1
+    mv testing/$6/$1 $2/$1
 
     sleep 4
 
@@ -29,7 +29,6 @@ function move_test() {
     fi
 
     rm $2/$1
-    rm -r $2
 }
 
 function move_to_root() {
@@ -41,18 +40,20 @@ function move_to_root() {
 
     sleep 4
 
-    python3 ./ci/tests/find_file.c $3 $4 $5
+    python3 ./ci/tests/find_file.py $3 $4 $5
 
     if [ $? -ne 0 ]; then
         echo -e "When a file is moved, the names has to change"
         exit 84
     fi
 
-    python3 ./ci/tests/find_file.c $3 $4 $6
+    python3 ./ci/tests/find_file.py $3 $4 $6
 
     if [ $? -ne 84 ]; then
         echo -e "When a file is moved the name has to change"
         exit 84
+    else
+        echo -e "\033[1;32m$1 PASSED\033[0m"
     fi
 
     rm $2
