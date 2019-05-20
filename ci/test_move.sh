@@ -3,12 +3,12 @@
 # ========= functions ============
 
 function move_test() {
-    touch testing/$6/$1
+    touch testing/$6$1
     mkdir $2
 
     sleep 4
 
-    mv testing/$6/$1 $2/$1
+    mv testing/$6$1 $2$1
 
     sleep 4
 
@@ -19,7 +19,7 @@ function move_test() {
         exit 84
     fi
 
-    python3 ./ci/tests/find_file.py $3 $4 "/$1"
+    python3 ./ci/tests/find_file.py $3 $4 "$1"
 
     if [ $? -ne 84 ]; then
         echo -e "$1 NEED TO BE REMOVED AFTER MOVE"
@@ -59,13 +59,13 @@ function move_to_root() {
 }
 
 echo -e "\033[1mTESTING when we move a file from src to src/folder \033[0m"
-move_test file.c testing/src/folder "./testing/" "SRC\t=" "/folder/file.c" src
+move_test "/file.c" testing/src/folder "./testing/" "SRC\t=" "/folder/file.c" src
 
 echo -e "\033[1mTESTING when we move a file from src/folder to src \033[0m"
 move_to_root testing/src/folder/file.c testing/src/file.c "./testing/" "SRC\t=" "/file.c" "/folder/file.c"
 
 echo -e "\033[1mTESTING when we move a file from tests to tests/folder \033[0m"
-move_test file.c testing/tests/folder "./testing/" "TESTS\t=" "/folder/file.c" tests
+move_test "/file.c" testing/tests/folder "./testing/" "TESTS\t=" "/folder/file.c" tests
 
 echo -e "\033[1mTESTING when we move a file from tests/folder to tests \033[0m"
 move_to_root testing/tests/folder/file.c testing/tests/file.c "./testing/" "TESTS\t=" "/file.c" "/folder/file.c"
