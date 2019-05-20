@@ -4,7 +4,7 @@
 function test_add() {
     touch $1
 
-    sleep 3
+    sleep 4
 
     python3 ./ci/tests/find_file.py $2 $3 $4
 
@@ -16,13 +16,14 @@ function test_add() {
     fi
 
     rm $1
+    sleep 2
 }
 
 function test_add_wfolder() {
     mkdir $1
     touch $1/$2
 
-    sleep 3
+    sleep 4
 
     python3 ./ci/tests/find_file.py $3 $4 $5
 
@@ -30,11 +31,11 @@ function test_add_wfolder() {
         echo "$1/$2 FAILED with exit code $?"
         exit 84
     else
-        echo "$1/$2 PASSED"
+        echo -e "\033[1;32m$1/$2 PASSED\033[0m"
     fi
 
     rm $1/$2
-    rm -r $1
+    sleep 2
 }
 
 
