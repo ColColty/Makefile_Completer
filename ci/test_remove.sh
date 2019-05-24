@@ -24,7 +24,7 @@ function remove_file() {
         exit 84
     fi
 
-    echo -e "\033[1;32Test $1 passed\033[0m"
+    echo -e "\033[1;32mTest $1 passed\033[0m"
 }
 
 function remove_file_folder() {
@@ -49,8 +49,8 @@ function remove_file_folder() {
         echo -e "When the file was removed the line on Makefile need to be removed too"
         exit 84
     fi
-ç
-    echo -e "\033[1;32Test $1 passed\033[0m"
+
+    echo -e "\033[1;32mTest $1 passed\033[0m"
 }
 
 echo -e "\033[1mTESTING when we remove a file from src\033[0m"
