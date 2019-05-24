@@ -38,6 +38,9 @@ jobs:
         - make
         - chmod +x ./ci/test_remove.sh
         - ./ci/test_move.sh
+    -
+      name: "All tests with the same environment"
+        - make tests_run
     - stage: Deployment
       name: "Push to docker hub"
       script:
