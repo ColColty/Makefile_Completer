@@ -40,6 +40,7 @@ jobs:
         - ./ci/test_move.sh
     -
       name: "All tests with the same environment"
+      script:
         - make tests_run
     - stage: Deployment
       name: "Push to docker hub"
