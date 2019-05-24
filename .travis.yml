@@ -45,7 +45,7 @@ jobs:
     - stage: Deployment
       name: "Push to docker hub"
       script:
-        - docker build . -t makefile_completer
+        - docker build . -t colcolt/makefile_completer
         - docker push colcolt/makefile_completer:latest
 
 stages:
