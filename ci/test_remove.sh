@@ -1,10 +1,11 @@
 #!/bin/bash
 
+sleep 2
+
 # ========== functions ==========
 
 function remove_file() {
     touch $1
-    ls testing/src/
     sleep 4
 
     python3 ./ci/tests/find_file.py $2 $3 $4
