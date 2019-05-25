@@ -45,7 +45,7 @@ stages:
 - Build
 - Tests
 - name: Deployment
-  if: branch IN (master, deploy/versioning) AND type != cron AND type != pull_request
+  if: branch IN (master) AND type != cron AND type != pull_request
 env:
   global:
   - secure: R3matETpoZYCc+V4+6EoNG0cM+FJdljziA2sK1p9boY2jRR6GhK7b+rxgu6MseDpzqCvEj4CMoIkRTLRfEwFiBU7oDnjDb1tPJ+RKR61HiqdInHpX952bs6bgxLIF3cyygao9dugEhkopxucip5Jn6lXtl7Uizks5n0APx1n0LR7iYk9rRUcWqyfABRWXv8y8roV0RKOVcesD2A39jg7bu4EiEHPUKvHoeFrJDdAvTEqhFmtYcfakrPXqd/bJevoroG3mZuY/PDAGT2MCoqZAHe2Lc88a0EFyXcQ+8ode8466GunECKJGcLHsuFzl3q3zqIe7RzGZ4GTcDcm1M9VXDQ0p9tTtEAKzgEusiXbcz+X+ms2o6s5vimqC8XEntf0p/leNZvSfx4P60d3ESNri8eWf+9E2lmLvpj/apDQphkx/6D99srE0xNHIMXSlwmyLAPdrnwk9tUPWHxny1ruYv/y1nUcKuYulpm8mRWAAEGj+iVLRMGs6AsaQ9/ZMfvAuQK9Qf0bxGBFG8HkF4P36Hwo6LkoUJ9WmO+lwbGw7fAJWsGPwPZbx/NGdlUVTvNo8FBNG1Vbak4Wd54th0YqTw/qMz+m4jV8wm2QDH2r/fajqhDsS4o0iEuL/qKaZCbeTYihM9oUsJBjntGMzhdNtnlRRKHWJWt+eGF9GTtWKZw=
