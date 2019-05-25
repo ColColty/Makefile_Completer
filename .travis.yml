@@ -42,7 +42,7 @@ jobs:
   - stage: Deployment
     name: Push to docker hub
     script:
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker build . -t colcolt/makefile_completer:latest
     - "./ci/deploy/deploy.sh"
 
