@@ -8,14 +8,14 @@ git:
   depth: false
   quiet: true
 
-  notifications:
+notifications:
   email: 
   recipients:
   - tomas.forne-cappeau@epitech.eu
   on_success: never
   on_failure: always
 
-  jobs:
+jobs:
   include:
   - stage: Build
     name: Building image
