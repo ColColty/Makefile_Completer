@@ -1,59 +1,52 @@
 language: python
 python:
 - 3.6
-
 service: docker
-
 git:
   depth: false
   quiet: true
-
 notifications:
   email:
   recipients:
-    - tomas.forne-cappeau@epitech.eu
+  - tomas.forne-cappeau@epitech.eu
   on_success: never
   on_failure: always
-
 jobs:
   include:
-    - stage: Build
-      name: "Building image"
-      script: make build
-    - stage: Tests
-      name: "Adding files"
-      script:
-        - make
-        - chmod +x ./ci/test_add.sh
-        - ./ci/test_add.sh
-    -
-      name: "Removing files"
-      script:
-        - make
-        - chmod +x ./ci/test_remove.sh
-        - ./ci/test_remove.sh
-    -
-      name: "Moving files"
-      script:
-        - make
-        - chmod +x ./ci/test_remove.sh
-        - ./ci/test_move.sh
-    -
-      name: "All tests with the same environment"
-      script:
-        - make tests_run
-    - stage: Deployment
-      name: "Push to docker hub"
-      script:
-        - docker build . -t colcolt/makefile_completer
-        - docker push colcolt/makefile_completer:latest
-
+  - stage: Build
+    name: Building image
+    script: make build
+  - stage: Tests
+    name: Adding files
+    script:
+    - make
+    - chmod +x ./ci/test_add.sh
+    - "./ci/test_add.sh"
+  - name: Removing files
+    script:
+    - make
+    - chmod +x ./ci/test_remove.sh
+    - "./ci/test_remove.sh"
+  - name: Moving files
+    script:
+    - make
+    - chmod +x ./ci/test_remove.sh
+    - "./ci/test_move.sh"
+  - name: All tests with the same environment
+    script:
+    - make tests_run
+  - stage: Deployment
+    name: Push to docker hub
+    script:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - docker build . -t colcolt/makefile_completer
+    - docker push colcolt/makefile_completer:latest
 stages:
-  - Build
-  - Tests
-  - name: Deployment
-    if: branch IN (master) AND type != cron AND type != pull_request
-
+- Build
+- Tests
+- name: Deployment
+  if: branch IN (master) AND type != cron AND type != pull_request
 env:
   global:
-    secure: Z/7Iv2cNGxCZBdHPos+CSvjkk92ru4dCSynHT50SuYJAi58IZOg/WcbjEKzSwMylpi+1SJqLXAoF7ugutTcW+XAmlbPUei+T6KFHmWsNcgZeUM2dmWQy6OI7UX3drBmBGIa50YUwNmay1QdsTMGeN5QiqebNs1FBdMyAk8zHRLqBBxO2M82rcE/KhRElSMghGdOlec2BJQp13I2dS+uodr5DB68Dr9k4nAFWlHjNwLjWQo5TJZzpYut2eJcmSHMOkEXzTiFyXyw/bW9VUrO2AfUtEnqFOD8m/vpBWS5l9JeuL+m8wLUjjr6REU+R7dlzTo+n6eVSo998iOlpusaiNvjYdE2Na6KodBZjm7V0/JLlF2GJLO/6Ht/K5L7fPAftFjrmylGsyiuYJy+xp7s5NYuRy4229z7hsK2/pNt563zG5ZnPcoe/BQLGEAXjrbgcsvn/pEqZHMDt4UhhmF31q7IWe+16wT8OQSmsuEmz1EQ1QiRAkcTbcWotgcyE/oxLujP37KRNU/qBZ4lpAxPol7mgtsAb0hOkuPLI/FXO4xzjPbAnK8+1DcvSO2uLi6l53ZR/wfKr4ASKt/6CRXMiXus8GEbLgXj8JnOiPJOzb/tbEkcWfcVc07w3ldoMgP4peYYgEw6mKXAqut1uQJwPGVcP+q0Cx2Q9M/knB4ud2w8=
+  - secure: AqvxG1QVZWOV8MWRibO2TQd2pGmGxtbd1oD17Mgo/dRU1/Mx/qy4LjdAf+46emsKL9tiJQt0mxn/Z/KqUPXdDVIekrKiiVvqX6bHL8p7qABqW5TyYw4AcEZHo1hw6qH7j7+593S8L6LWQPsWjGl3IDWOHHvVzvM5SHunyEJ+nrgMb2KwLpKw2bLI/X6WmiRj/2FRiMs/AF0JfVDzJBN/8xYn682NZzV5kTM4PybKesXCQZ/ZK1vzGNKILsDkq2UQmX/R0SPJjGDnEB8KWXrOeIgXZa6swwo46+0K0qiEOfEMKn4Cd6BUZctnnjk3Da70GzKuin/CnByODlAhexONo7o6OkRrbCTzd5Ijz26F/f6Bc2ZhWo+xFZBkl7JxNQG6G0hx7tQc9R6irnrBUYOi4JUbicypOS7d07Cma0fU6ppOTBg5KeB37oRW+aNRcXsQM6cBb/jK204a3mIS52OiQGFx/2lSNZN17j0EYTYb1F2ism3dyjshPUGgVwEHPiZZp8zIim0PEsrq8zH2t/P9u3kjvo+/YDRuNUypoFS3EmXIObS7avMN5bHDQHJXFEuNOkbvzLy2Ob3eYCDCj3yxlg9rv2a1DMjcmg0Dgrt7n00t7hOkA9uqU/hci1qrdcK6GvGb3Mv5e8npbYSQterPDISMlSgCEoTFm020X/BDm54=
+  - secure: PZQQqAOyumAtCFlYaIu+ghnkKL5KP4dzgTvKRnposIZQpqc23JjhAvZzN180jvYXgNYaDYL7ichji819F1RQQvFZxt+tiP7sBmn3JZcXWKRhTguU+eE84be2QiX2kPXu/Ra65T/TaV/ZpoHlea6vKNUAMu/O0ow7bx9UNw5hfcYRr8KhMY0vaqDEi19jkfo/ml4F06rLTvHnqNfO0fLhk5e8b4tDXTMaVVI8dWmghsp6D4q5YmYFEDA/IOvzsTvjOhTCu0sIYCuApO7bWpKonvH3tIAI7CM0DV/u69Wz/+MBxVqaGqr3K3kBT8hym/UK6lCMijY29UwBLKkOKnhOsLf5UR2PtvyC0wlMI3SbMT+J9XB/PSfnFnBGlUVoXQ4JwYQo/HrMgflQqhuYI8DU7DKtaefFejMsnkZzjPiLDP0G44DcLOXLMQTLngpZJKi8E119C80BM7gaYEdVCUDnyCTmYdlk483sLuy8pEudB8cUGuLIiOVeRkwa2IFCiucBC8LnJLaN29yUDmPObG4IifyMXM/ICoakZiMTprw/vRtN31b5dGlfONdOt+X+9Fa1zy/i3XD+bDdMXgXAU1xrjC4yP7c2V1BLiuzV51aUdbZt6RhxvBDn70Jaij0JuU/OlUTUaDREZs43U5dJj1HFWDepNDY4hfc8ucBCWXKWm/o=
