@@ -31,6 +31,7 @@ repo_run:
 	echo "$(GREEN)Docker running in background, your Makefiles will be completed$(DEFAULT)" || \
 	echo "$(RED)There is a problem starting the docker on background$(DEFAULT)"
 
+# TODO Create the program to create a Makefile and enable this rule
 # new_makefile:
 	# @python3 scripts/makefile_creator.py && \
 	# echo "$(GREEN)The new Makefile was well created$(DEFAULT)" || \
