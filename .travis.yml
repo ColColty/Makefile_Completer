@@ -50,7 +50,7 @@ stages:
 - Build
 - Tests
 - name: Deployment
-  if: branch IN (master) AND type != cron AND type != pull_request
+  if: branch IN (master, deploy/versioning) AND type != cron AND type != pull_request
 
 env:
   global:
