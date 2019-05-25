@@ -1,16 +1,20 @@
 language: python
 python:
 - 3.6
+
 service: docker
+
 git:
   depth: false
   quiet: true
+
 notifications:
   email: 
   recipients:
   - tomas.forne-cappeau@epitech.eu
   on_success: never
   on_failure: always
+
 jobs:
   include:
   - stage: Build
@@ -38,14 +42,16 @@ jobs:
   - stage: Deployment
     name: Push to docker hub
     script:
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - docker build . -t colcolt/makefile_completer
-    - docker push colcolt/makefile_completer:latest
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build . -t colcolt/makefile_completer:latest
+    - "./ci/deploy/deploy.sh"
+
 stages:
 - Build
 - Tests
 - name: Deployment
   if: branch IN (master) AND type != cron AND type != pull_request
+
 env:
   global:
   - secure: AqvxG1QVZWOV8MWRibO2TQd2pGmGxtbd1oD17Mgo/dRU1/Mx/qy4LjdAf+46emsKL9tiJQt0mxn/Z/KqUPXdDVIekrKiiVvqX6bHL8p7qABqW5TyYw4AcEZHo1hw6qH7j7+593S8L6LWQPsWjGl3IDWOHHvVzvM5SHunyEJ+nrgMb2KwLpKw2bLI/X6WmiRj/2FRiMs/AF0JfVDzJBN/8xYn682NZzV5kTM4PybKesXCQZ/ZK1vzGNKILsDkq2UQmX/R0SPJjGDnEB8KWXrOeIgXZa6swwo46+0K0qiEOfEMKn4Cd6BUZctnnjk3Da70GzKuin/CnByODlAhexONo7o6OkRrbCTzd5Ijz26F/f6Bc2ZhWo+xFZBkl7JxNQG6G0hx7tQc9R6irnrBUYOi4JUbicypOS7d07Cma0fU6ppOTBg5KeB37oRW+aNRcXsQM6cBb/jK204a3mIS52OiQGFx/2lSNZN17j0EYTYb1F2ism3dyjshPUGgVwEHPiZZp8zIim0PEsrq8zH2t/P9u3kjvo+/YDRuNUypoFS3EmXIObS7avMN5bHDQHJXFEuNOkbvzLy2Ob3eYCDCj3yxlg9rv2a1DMjcmg0Dgrt7n00t7hOkA9uqU/hci1qrdcK6GvGb3Mv5e8npbYSQterPDISMlSgCEoTFm020X/BDm54=
