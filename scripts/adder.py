@@ -16,7 +16,7 @@ def check_already_exists(all_lines, line_to_find):
 
 
 def addFiletoMakefile(file):
-    makeContent = lib.readWrite(path=file.makefile + "Makefile", writing=None)
+    makeContent = lib.readWrite(path=file.makefile + "/Makefile", writing=None)
     line_list = makeContent.splitlines()
 
     logging.info("++++++ ADDING ++++++\n")
@@ -39,7 +39,7 @@ def addFiletoMakefile(file):
             break
 
     makeContent = '\n'.join(line_list)
-    lib.readWrite(path=file.makefile + "Makefile", writing=makeContent)
+    lib.readWrite(path=file.makefile + "/Makefile", writing=makeContent)
     logging.info("++ Line well added\n\n")
 
 
