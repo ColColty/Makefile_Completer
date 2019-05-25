@@ -25,12 +25,15 @@ def find_makefile(path):
     for current in rev_path:
         path_split.remove(current)
         if makefile_in_dir('/'.join(path_split)):
-            return '/'.join(path_split) + '/'
+            return '/'.join(path_split)
+    logging.info("Makefile not founded for {}".format(path))
     return None
 
 
 def directory_finder(path):
     makefile_path = find_makefile(path)
+    if not makefile_path:
+        return None
     for element in path.split('/')[::-1]:
         identifier = identify_it(element)
         if identifier != None:
