@@ -7,7 +7,8 @@ import os
 
 
 def removeDirectory(folder):
-    logging.debug("-- The folder {} items will be deleted".format(folder.folder_name))
+    logging.debug(
+        "-- The folder {} items will be deleted".format(folder.folder_name))
     identifier, make_path = finder.directory_finder(folder.pwd_folder)
     make_content = lib.readWrite(path=make_path + "/Makefile")
     make_list = make_content.splitlines()
@@ -15,13 +16,15 @@ def removeDirectory(folder):
     logging.info("------ REMOVING ------\n")
 
     for line in make_list:
-        logging.debug("-- FINDING Makefile Line: {}\t || \tto find -> {}".format(line, folder.folder_name + '/'))
-        if re.search(folder.folder_name + '/', line) and  re.search(define.PATHS[identifier], line):
+        logging.debug(
+            "-- FINDING Makefile Line: {}\t || \tto find -> {}".format(line, folder.folder_name + '/'))
+        if re.search(folder.folder_name + '/', line) and re.search(define.PATHS[identifier], line):
             logging.info("-- Removing {} line from makefile".format(line))
             make_list.remove(line)
     make_content = '\n'.join(make_list)
     lib.readWrite(path=make_path + "/Makefile", writing=make_content)
-    logging.info("-- All files from the directory has been removed from the Makefile")
+    logging.info(
+        "-- All files from the directory has been removed from the Makefile")
 
 
 def removeFilefromMakefile(file):
