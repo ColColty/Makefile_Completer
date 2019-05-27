@@ -16,7 +16,7 @@ def removeDirectory(folder):
 
     for line in make_list:
         logging.debug("-- FINDING Makefile Line: {}\t || \tto find -> {}".format(line, folder.folder_name + '/'))
-        if re.search(folder.folder_name + '/', line):
+        if re.search(folder.folder_name + '/', line) and  re.search(define.PATHS[identifier], line):
             logging.info("-- Removing {} line from makefile".format(line))
             make_list.remove(line)
     make_content = '\n'.join(make_list)
