@@ -6,7 +6,7 @@ git:
   depth: false
   quiet: true
 notifications:
-  email: 
+  email:
   recipients:
   - tomas.forne-cappeau@epitech.eu
   on_success: never
@@ -16,7 +16,7 @@ jobs:
   - stage: Build
     name: Building image
     script: make build
-  - stage: Tests
+  - stage: Tests files
     name: Adding files
     script:
     - make
@@ -35,6 +35,12 @@ jobs:
   - name: All tests with the same environment
     script:
     - make tests_run
+  - stage: Tests folders
+    name: Removing a directory
+    script:
+    - make
+    - chmod +x ./ci/test_remove_folder.sh
+    - "./ci/test_remove_folder.sh"
   - stage: Deployment
     name: Push to docker hub
     script:
@@ -43,7 +49,8 @@ jobs:
     - "./ci/deploy/deploy.sh"
 stages:
 - Build
-- Tests
+- Tests files
+- Tests folders
 - name: Deployment
   if: branch IN (master) AND type != cron AND type != pull_request
 env:
