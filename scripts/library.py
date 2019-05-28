@@ -16,12 +16,13 @@ def json_loader(path):
     try:
         with open(path, 'r', encoding='utf-8') as file:
             data = file.read().replace("'", '"').replace(
-            "True", "true").replace("False", "false")
+                "True", "true").replace("False", "false")
             file_content = json.loads(data)
+        return file_content
     except:
         logging.error(
             "/!\\ ---- The file {} doesn't exists ---- /!\\".format(path))
-    return file_content
+    return []
 
 
 if __name__ == '__main':

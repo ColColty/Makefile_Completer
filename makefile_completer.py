@@ -115,6 +115,7 @@ if __name__ == '__main__':
     observer.schedule(event_handler, path="/home", recursive=True)
     observer.start()
     logging.basicConfig(level=logging.DEBUG)
+    define.load_definers()
 
     try:
         while True:
