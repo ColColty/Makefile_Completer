@@ -11,7 +11,7 @@ FOLDER_FILE_FOLDER=("/folder/infolder.c"
             )
 
 function find_files() {
-    for file in $($4)
+    for file in $4
     do
         python3 ./ci/tests/find_file.py $2 $3 $file
 
@@ -39,7 +39,7 @@ function removing_folder() {
 }
 
 echo -e "\033[1mTesting erase with subfolder\033[0m"
-removing_folder src "./testing/" "SRC\t=" FOLDER_FILE_SUBFOLDER folder/subfolder
+removing_folder src "./testing/" "SRC\t=" $FOLDER_FILE_SUBFOLDER folder/subfolder
 
 echo -e "\033[1mTesting erase with folder\033[0m"
-removing_folder src "./testing/" "SRC\t=" FOLDER_FILE_FOLDER folder
+removing_folder src "./testing/" "SRC\t=" $FOLDER_FILE_FOLDER folder
