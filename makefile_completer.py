@@ -56,6 +56,7 @@ class dataFile:
 
 
 class FileEvent(FileSystemEventHandler):
+    @classmethod
     def on_created(self, event):
         file, ext = os.path.splitext(event.src_path)
         logging.info(
@@ -69,6 +70,7 @@ class FileEvent(FileSystemEventHandler):
             add.addFiletoMakefile(newFile)
             logging.info("\n++++++++ THE FILE WAS ADDED ++++++++\n\n\n")
 
+    @classmethod
     def on_deleted(self, event):
         file, ext = os.path.splitext(event.src_path)
         logging.info(
@@ -87,6 +89,7 @@ class FileEvent(FileSystemEventHandler):
             rm.removeDirectory(delDir)
             logging.info("\n-------- THE DIRECTORY WAS DELETED --------\n\n\n")
 
+    @classmethod
     def on_moved(self, event):
         file, ext = os.path.splitext(event.src_path)
         logging.info(
@@ -115,6 +118,7 @@ if __name__ == '__main__':
     observer.schedule(event_handler, path="/home", recursive=True)
     observer.start()
     logging.basicConfig(level=logging.DEBUG)
+    define.load_definers()
 
     try:
         while True:

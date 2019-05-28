@@ -1,4 +1,6 @@
 import sys
+import json
+import logging
 
 
 def readWrite(path, writing=None):
@@ -9,7 +11,19 @@ def readWrite(path, writing=None):
     with open(path, 'w', encoding='utf-8') as file:
         file.write(writing)
 
-# TODO Function to read and interpret json files
+
+def json_loader(path):
+    try:
+        with open(path, 'r', encoding='utf-8') as file:
+            data = file.read().replace("'", '"').replace(
+                "True", "true").replace("False", "false")
+            file_content = json.loads(data)
+        return file_content
+    except FileNotFoundError:
+        logging.error(
+            "/!\\ ---- The file {} doesn't exists ---- /!\\".format(path))
+    return []
+
 
 if __name__ == '__main':
     if len(sys.argv) < 2:

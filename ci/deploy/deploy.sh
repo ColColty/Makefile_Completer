@@ -2,7 +2,7 @@
 
 # Docker deploy versioning
 
-version=`cat ci/deploy/VERSION`
+version=$(cat ci/deploy/VERSION)
 username="colcolt"
 docker_image="makefile_completer"
 
