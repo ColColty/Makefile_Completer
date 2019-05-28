@@ -2,6 +2,7 @@
   <h1 align="center">Makefile Completer</h1>
 </p>
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/20a7e77df94e4d91b730a9cc471c6824)](https://app.codacy.com/app/tomas.forne-cappeau/Makefile_Completer?utm_source=github.com&utm_medium=referral&utm_content=ColColty/Makefile_Completer&utm_campaign=Badge_Grade_Dashboard)
 **TAGS:** [![Build Status](https://travis-ci.com/ColColty/Makefile_Completer.svg?branch=master)](https://travis-ci.com/ColColty/Makefile_Completer)
 
 ## Desription
