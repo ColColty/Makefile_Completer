@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 2
+
 FOLDER_FILE_SUBFOLDER=("/folder/subfolder/erase/inerase.c"
             "/folder/subfolder/erase/inseconderase.c"
             "/folder/subfolder/insubfolder.c"
