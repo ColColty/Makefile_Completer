@@ -13,14 +13,20 @@ def removeDirectory(folder):
     make_content = lib.readWrite(path=make_path + "/Makefile")
     make_list = make_content.splitlines()
 
+    lines_rm = []
     logging.info("------ REMOVING ------\n")
 
     for line in make_list:
         logging.debug(
             "-- FINDING Makefile Line: {}\t || \tto find -> {}".format(line, folder.folder_name + '/'))
-        if re.search(folder.folder_name + '/', line) and re.search(define.PATHS[identifier], line):
-            logging.info("-- Removing {} line from makefile".format(line))
-            make_list.remove(line)
+        if re.search(folder.folder_name + '/', line):
+            logging.debug("-- Adding {} line from makefile to erase".format(line))
+            lines_rm.append(line)
+
+    for rm in lines_rm:
+        logging.info("-- REMOVING {} from makefile".format(rm))
+        make_list.remove(rm)
+
     make_content = '\n'.join(make_list)
     lib.readWrite(path=make_path + "/Makefile", writing=make_content)
     logging.info(
