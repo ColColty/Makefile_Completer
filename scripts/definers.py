@@ -1,4 +1,3 @@
-import logging
 import scripts.library as lib
 
 JSON_FILES = ["data/config.json"]

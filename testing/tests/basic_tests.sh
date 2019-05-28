@@ -4,7 +4,7 @@ test_arguments_good()
 {
     echo "timeout 2 ./$EXEC $@"
     timeout 2 ./$EXEC $@
-    RET=`echo $?`
+    RET=$(echo $?)
 
     if [ $RET -ne 0 ]; then
         echo -e "\033[1;31mTest $COUNTER failed with code: $RET\033[0m"
@@ -19,7 +19,7 @@ test_arguments_bad()
 {
     echo "timeout 2 ./$EXEC $@"
     timeout 2 ./$EXEC $@
-    RET=`echo $?`
+    RET=$(echo $?)
 
     if [ $RET -ne 84 ]; then
         echo -e "\033[1;31mTest $COUNTER failed with code: $RET\033[0m"

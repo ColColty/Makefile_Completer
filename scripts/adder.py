@@ -1,7 +1,6 @@
 import scripts.definers as define
 import scripts.library as lib
 import re
-import os
 import logging
 
 

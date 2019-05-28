@@ -19,7 +19,7 @@ def json_loader(path):
                 "True", "true").replace("False", "false")
             file_content = json.loads(data)
         return file_content
-    except:
+    except FileNotFoundError:
         logging.error(
             "/!\\ ---- The file {} doesn't exists ---- /!\\".format(path))
     return []

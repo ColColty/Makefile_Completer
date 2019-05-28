@@ -3,7 +3,6 @@ import scripts.definers as define
 import scripts.find_makefile as finder
 import re
 import logging
-import os
 
 
 def removeDirectory(folder):
@@ -20,7 +19,8 @@ def removeDirectory(folder):
         logging.debug(
             "-- FINDING Makefile Line: {}\t || \tto find -> {}".format(line, folder.folder_name + '/'))
         if re.search(folder.folder_name + '/', line):
-            logging.debug("-- Adding {} line from makefile to erase".format(line))
+            logging.debug(
+                "-- Adding {} line from makefile to erase".format(line))
             lines_rm.append(line)
 
     for rm in lines_rm:
@@ -30,7 +30,7 @@ def removeDirectory(folder):
     make_content = '\n'.join(make_list)
     lib.readWrite(path=make_path + "/Makefile", writing=make_content)
     logging.info(
-        "-- All files from the directory has been removed from the Makefile")
+        "-- All files from the directory has been removed from the Makefile for type {}".format(define.IDENTIFIERS[identifier]))
 
 
 def removeFilefromMakefile(file):
