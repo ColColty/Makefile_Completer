@@ -60,7 +60,7 @@ class FileEvent(FileSystemEventHandler):
         file, ext = os.path.splitext(event.src_path)
         logging.info(
             "++ Extension of \"{}\" and the path is {}".format(ext, file))
-        if ext == ".c":
+        if ext == ".c" and not event.is_directory:
             identifier, dir_path = finder.directory_finder(event.src_path)
             logging.info("++ Path where the Makefile is: {}".format(dir_path))
             logging.info(
@@ -73,7 +73,7 @@ class FileEvent(FileSystemEventHandler):
         file, ext = os.path.splitext(event.src_path)
         logging.info(
             "-- Extension of \"{}\" and the path is {}".format(ext, file))
-        if ext == ".c":
+        if ext == ".c" and not event.is_directory:
             identifier, dir_path = finder.directory_finder(event.src_path)
             logging.info("-- Path where the Makefile is: {}".format(dir_path))
             logging.info(
@@ -91,7 +91,7 @@ class FileEvent(FileSystemEventHandler):
         file, ext = os.path.splitext(event.src_path)
         logging.info(
             "== Extension of \"{}\" and the path is {}".format(ext, file))
-        if ext == ".c":
+        if ext == ".c" and not event.is_directory:
             logging.info("\n=== {} was moved to {} ===\n".format(
                 event.src_path, event.dest_path))
             identifier, dir_path = finder.directory_finder(event.src_path)

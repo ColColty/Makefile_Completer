@@ -10,7 +10,7 @@ def makefile_in_dir(curr_dir):
             if re.match("Makefile", line):
                 return True
     except FileNotFoundError:
-        logging.error("Error loading {}".format(curr_dir))
+        logging.error("/!\\ ---- Error loading {} ---- /!\\".format(curr_dir))
     return False
 
 
@@ -29,7 +29,7 @@ def find_makefile(path):
         path_split.remove(current)
         if makefile_in_dir('/'.join(path_split)):
             return '/'.join(path_split)
-    logging.info("Makefile not founded for {}".format(path))
+    logging.info("/!\\ ---- Makefile not founded for {} ---- /!\\".format(path))
     return None
 
 
