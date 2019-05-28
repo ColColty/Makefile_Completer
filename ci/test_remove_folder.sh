@@ -39,13 +39,13 @@ function find_files() {
 function removing_folder() {
     cp -r ci/tests/folder testing/$1
 
-    sleep 4
+    sleep 8
 
     find_files 0 $2 $3 $4
 
     rm -rf testing/src/$5
 
-    sleep 4
+    sleep 8
 
     find_files 84 $2 $3 $4
 
