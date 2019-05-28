@@ -1,0 +1,32 @@
+{
+    "src": {
+        "folder": "src",
+        "variable": "SRC\t=",
+        "path": "\t$(SRC_DIR)/",
+        "": {
+            "folder": "",
+            "variable": "",
+            "path": ""
+        }
+    },
+    "tests": {
+        "folder": "tests",
+        "variable": "TESTS\t=",
+        "path": "\t$(TEST_SRC)/",
+        "": {
+            "folder": "",
+            "variable": "",
+            "path": ""
+        }
+    },
+    "lib": {
+        "folder": "lib",
+        "variable": "",
+        "path": "",
+        "my": {
+            "folder": "my",
+            "variable": "SRC\t=",
+            "path": "\t"
+        }
+    }
+}
