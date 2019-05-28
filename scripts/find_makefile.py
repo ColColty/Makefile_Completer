@@ -5,9 +5,12 @@ import logging
 
 
 def makefile_in_dir(curr_dir):
-    for line in os.listdir(curr_dir):
-        if re.match("Makefile", line):
-            return True
+    try:
+        for line in os.listdir(curr_dir):
+            if re.match("Makefile", line):
+                return True
+    except FileNotFoundError:
+        logging.error("Error loading {}".format(curr_dir))
     return False
 
 

@@ -51,7 +51,10 @@ tests_run:
 	@echo "Executing moving tests\n"
 	@./ci/test_move.sh && \
 	echo "$(GREEN)The moving tests passed\n$(DEFAULT)"
-	sleep 2
+	@echo "Executing remove folder tests\n"
+	@./ci/test_remove_folder.sh && \
+	echo "$(GREEN)The remove folder tests passed\n$(DEFAULT)"
+	@sleep 2
 	@docker rm -f $(DOCKER_NAME)
 
 stop:
